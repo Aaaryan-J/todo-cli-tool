@@ -16,7 +16,7 @@ A small command-line task manager built with Python. Tasks are stored locally in
 Clone the repository and move into the project directory:
 
 ```
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone [https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git](https://github.com/Aaaryan-J/todo-cli-tool.git)
 cd todo_cli
 ```
 
