@@ -129,19 +129,34 @@ def main():
                 tasks = json.load(file)
         except FileNotFoundError:
             tasks = []
-        if len(tasks) == 0:
-            print('To-Do list is empty! Congrats!')
 
-        tasks_to_show = tasks
+        if not tasks:
+            print("No tasks found. Your list is empty!")
+            return
 
-        if args.status is not None:
-            tasks_to_show = [
-                task for task in tasks
-                if task['status'] == args.status
-            ]
+        tasks_to_show = tasks if args.status is None else [t for t in tasks if t['status'] == args.status]
+
+        if not tasks_to_show:
+            print(f"No tasks with status '{args.status}'.")
+            return
+
+        RESET = "\033[0m"
+        BOLD = "\033[1m"
+        GRAY = "\033[90m"
+
+        STATUS_STYLES = {
+            "todo": "\033[36m○ todo       \033[0m",         # Cyan
+            "in-progress": "\033[33m◐ in-progress\033[0m",  # Yellow
+            "done": "\033[32m✔ done       \033[0m",         # Green
+        }
+
+        print(f"\n{BOLD}{'ID':>4}  {'Status':<13}  {'Description'}{RESET}")
+        print(f"{GRAY}{'─'*4}  {'─'*13}  {'─'*40}{RESET}")
 
         for task in tasks_to_show:
-            print(f"{task['id']}=>\t[{task['status']}]\t{task['description']}")
+            badge = STATUS_STYLES.get(task['status'], f"{task['status']:<13}")
+            print(f"{task['id']:>4}  {badge}  {task['description']}")
+        print(f"{GRAY}{'─'*4}  {'─'*13}  {'─'*40}{RESET}")
 
 if __name__ == '__main__':
     main()
